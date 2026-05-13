@@ -1,12 +1,6 @@
 # Obsidian MCP Server
 
-[![smithery badge](https://smithery.ai/badge/obsidian-mcp)](https://smithery.ai/server/obsidian-mcp)
-
 An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that enables AI assistants to interact with Obsidian vaults, providing tools for reading, creating, editing and managing notes and tags.
-
-## Warning!!!
-
-This MCP has read and write access (if you allow it). Please. PLEASE backup your Obsidian vault prior to using obsidian-mcp to manage your notes. I recommend using git, but any backup method will work. These tools have been tested, but not thoroughly, and this MCP is in active development.
 
 ## Features
 
@@ -19,65 +13,15 @@ This MCP has read and write access (if you allow it). Please. PLEASE backup your
 
 ## Requirements
 
-- Node.js 20 or higher (might work on lower, but I haven't tested it)
+- Node.js 20 or higher
 - An Obsidian vault
+- MCP supported IDE (tried on antigravity, vscode and cursor. Cursor is best among the three)
 
 ## Install
 
-### Installing Manually
-
-Add to your Claude Desktop configuration:
-
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-```json
-{
-    "mcpServers": {
-        "obsidian": {
-            "command": "npx",
-            "args": ["-y", "obsidian-mcp", "/path/to/your/vault", "/path/to/your/vault2"]
-        }
-    }
-}
-```
-
-Replace `/path/to/your/vault` with the absolute path to your Obsidian vault. For example:
-
-MacOS/Linux:
-
-```json
-"/Users/username/Documents/MyVault"
-```
-
-Windows:
-
-```json
-"C:\\Users\\username\\Documents\\MyVault"
-```
-
-Restart Claude for Desktop after saving the configuration. You should see the hammer icon appear, indicating the server is connected.
-
-If you have connection issues, check the logs at:
-
-- MacOS: `~/Library/Logs/Claude/mcp*.log`
-- Windows: `%APPDATA%\Claude\logs\mcp*.log`
-
-
-### Installing via Smithery
-Warning: I am not affiliated with Smithery. I have not tested using it and encourage users to install manually if they can.
-
-To install Obsidian for Claude Desktop automatically via [Smithery](https://smithery.ai/server/obsidian-mcp):
-
-```bash
-npx -y @smithery/cli install obsidian-mcp --client claude
-```
-
-## Development
-
 ```bash
 # Clone the repository
-git clone https://github.com/StevenStavrakis/obsidian-mcp
+git clone https://github.com/fuNse/obsidian-mcp
 cd obsidian-mcp
 
 # Install dependencies
@@ -87,18 +31,27 @@ npm install
 npm run build
 ```
 
-Then add to your Claude Desktop configuration:
+Then add to your IDE configuration:
 
 ```json
 {
     "mcpServers": {
         "obsidian": {
             "command": "node",
-            "args": ["<absolute-path-to-obsidian-mcp>/build/main.js", "/path/to/your/vault", "/path/to/your/vault2"]
+            "args": ["<path to your mcp server dir>/build/main.js", "<path to your obsidian vault>", "<path to your second obsidian vault, if needed>"]
         }
     }
 }
 ```
+
+Replace `<path to your obsidian vault>` with the absolute path to your Obsidian vault. For example:
+
+
+```json
+"C:/obsidian vaults/<name of vault>"
+```
+
+Restart IDE after saving the configuration. You should see the green light appear, indicating the server is connected.
 
 ## Available Tools
 
@@ -115,38 +68,9 @@ Then add to your Claude Desktop configuration:
 - `manage-tags` - List and organize tags
 - `list-available-vaults` - List all available vaults (helps with multi-vault setups)
 
-## Documentation
-
-Additional documentation can be found in the `docs` directory:
-
-- `creating-tools.md` - Guide for creating new tools
-- `tool-examples.md` - Examples of using the available tools
-
 ## Security
 
 This server requires access to your Obsidian vault directory. When configuring the server, make sure to:
 
 - Only provide access to your intended vault directory
 - Review tool actions before approving them
-
-## Troubleshooting
-
-Common issues:
-
-1. **Server not showing up in Claude Desktop**
-   - Verify your configuration file syntax
-   - Make sure the vault path is absolute and exists
-   - Restart Claude Desktop
-
-2. **Permission errors**
-   - Ensure the vault path is readable/writable
-   - Check file permissions in your vault
-
-3. **Tool execution failures**
-   - Check Claude Desktop logs at:
-     - macOS: `~/Library/Logs/Claude/mcp*.log`
-     - Windows: `%APPDATA%\Claude\logs\mcp*.log`
-
-## License
-
-MIT
