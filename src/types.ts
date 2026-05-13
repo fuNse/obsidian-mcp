@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 // Tool types
 export interface Tool<T = any> {
   name: string;
